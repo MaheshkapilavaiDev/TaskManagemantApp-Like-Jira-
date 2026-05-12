@@ -29,12 +29,12 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public UserRequestDTO getById(@PathVariable Long id) {
+	public User getById(@PathVariable Long id) {
 		return service.getById(id);
 	}
 
 	@PutMapping("/{id}")
-	public UserRequestDTO update(@PathVariable Long id, @RequestBody UserRequestDTO dto) {
+	public User update(@PathVariable Long id, @RequestBody UserRequestDTO dto) {
 
 		return service.update(id, dto);
 	}

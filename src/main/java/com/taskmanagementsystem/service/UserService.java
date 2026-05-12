@@ -38,17 +38,37 @@ public class UserService {
 	}
 
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		
+
+		User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+		repository.delete(user);
 	}
 
-	public UserRequestDTO update(Long id, UserRequestDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public User update(Long id, UserRequestDTO dto) {
+
+		User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+
+		// UPDATE PASSWORD 
+		if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+
+			user.setPassword(encoder.encode(dto.getPassword()));
+		}
+
+		return repository.save(user);
 	}
 
-	public UserRequestDTO getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getById(Long id) {
+
+		User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+		User dto = new User();
+
+		dto.setName(user.getName());
+		dto.setEmail(user.getEmail());
+
+		return dto;
 	}
 }

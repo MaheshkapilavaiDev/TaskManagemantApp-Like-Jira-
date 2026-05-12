@@ -25,6 +25,9 @@ import com.taskmanagementsystem.enums.Role;
 import com.taskmanagementsystem.repository.UserRepository;
 import com.taskmanagementsystem.security.JwtFilter;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -47,6 +50,11 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                		.requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         // PUBLIC APIs
                         .requestMatchers(
                                 "/auth/**"
@@ -121,5 +129,14 @@ public class SecurityConfig {
                 );
             }
         };
+    }
+    @Bean
+    public OpenAPI customOpenAPI() {
+
+        return new OpenAPI()
+                .info(new Info()
+                        .title("TaskManagementSystem API")
+                        .version("1.0")
+                        .description("Jira Like Task Management Backend APIs"));
     }
 }
